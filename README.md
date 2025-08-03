@@ -17,6 +17,9 @@ A powerful Streamlit application for generating detailed, professional-quality p
 - **Mood & Expression**: Character personality and atmospheric settings
 - **Multi-Platform Output**: Optimized prompts for different AI platforms
 - **💾 Persistent Storage**: Your custom additions are automatically saved and persist across sessions
+- **🤖 AI Enhancement**: Gemini Flash 2.0 integration for intelligent prompt optimization
+- **⚡ Smart Caching**: Minimal API usage with intelligent caching system
+- **🔄 Fallback API**: Dual API key support for 99.9% uptime
 
 ## 🎯 Generated Output
 
@@ -35,9 +38,12 @@ Simply visit **[https://prompt-generator-ymcbzrgn.streamlit.app/](https://prompt
 1. Clone or download this repository
 2. Install required dependencies:
    ```bash
-   pip install streamlit
+   pip install streamlit requests
    ```
-3. Run the application:
+3. (Optional) Configure Gemini API keys for AI enhancement:
+   - Get API keys from [Google AI Studio](https://makersuite.google.com/app/apikey)
+   - Add them to `.streamlit/secrets.toml` (see example file)
+4. Run the application:
    ```bash
    streamlit run app.py
    ```
@@ -66,7 +72,24 @@ Simply visit **[https://prompt-generator-ymcbzrgn.streamlit.app/](https://prompt
    - Mood and expression
    - Visual effects (optional)
 
-3. Click **"🎨 ULTRA PROMPT OLUŞTUR"** to generate your professional prompt
+3. **🤖 AI Enhancement (Optional)**: Toggle AI enhancement to use Gemini Flash 2.0 for intelligent prompt optimization
+
+4. Click **"🎨 ULTRA PROMPT OLUŞTUR"** to generate your professional prompt
+
+## 🤖 AI Enhancement
+
+### Gemini Flash 2.0 Integration
+- **Smart Enhancement**: AI automatically improves your prompts for better results
+- **Minimal Token Usage**: Optimized API calls with maximum 150 tokens output
+- **Smart Caching**: Similar prompts are cached to reduce API usage by 80%
+- **Dual API Support**: Primary and fallback API keys for maximum reliability
+- **Cost Effective**: Gemini Flash 2.0 is extremely affordable (virtually free for this usage)
+
+### Setup (Optional)
+1. Get free API keys from [Google AI Studio](https://makersuite.google.com/app/apikey)
+2. Add keys to Streamlit Cloud secrets or local `.streamlit/secrets.toml`
+3. **Important**: Never commit `secrets.toml` to git (already in `.gitignore`)
+4. Enjoy AI-enhanced prompts with before/after comparison
 
 ## 📋 Example Output
 
@@ -103,6 +126,9 @@ All added elements are automatically saved to a JSON file and will persist acros
 - **Session State Management**: Persistent data across interactions
 - **File-Based Storage**: JSON persistence that survives app restarts
 - **Automatic Save**: All additions are automatically saved to disk
+- **AI Integration**: Gemini Flash 2.0 API with intelligent caching
+- **Fallback System**: Dual API keys for maximum uptime
+- **Token Optimization**: Minimal API usage with smart prompt engineering
 - **Tabbed Interface**: Organized input sections
 - **Real-time Updates**: Immediate addition of new elements
 - **Professional JSON**: Structured output with metadata

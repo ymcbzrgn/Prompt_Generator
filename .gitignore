@@ -1,3 +1,7 @@
+# Streamlit secrets and config (IMPORTANT!)
+.streamlit/secrets.toml
+.streamlit/config.toml
+
 # Python bytecode files
 __pycache__/
 *.pyc
@@ -18,3 +22,19 @@ build/
 # IDEs
 .vscode/
 .idea/
+
+# Data files (optional - uncomment if you want to keep local data private)
+# prompt_generator_data.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.tempP.
+
+.streamlit/
+
+GEMMINI_SETUP.md
