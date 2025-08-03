@@ -2,6 +2,10 @@
 
 A powerful Streamlit application for generating detailed, professional-quality prompts for AI image generation platforms like DALL-E, Midjourney, and Stable Diffusion.
 
+## 🌐 Try It Live!
+
+**[✨ Launch the App](https://prompt-generator-ymcbzrgn.streamlit.app/)** - No installation required!
+
 ## 🚀 Features
 
 - **Character Library**: Pre-loaded cyberpunk and anime characters with their origin worlds
@@ -12,6 +16,7 @@ A powerful Streamlit application for generating detailed, professional-quality p
 - **Backgrounds**: Dark, minimalist backgrounds perfect for neon aesthetics
 - **Mood & Expression**: Character personality and atmospheric settings
 - **Multi-Platform Output**: Optimized prompts for different AI platforms
+- **💾 Persistent Storage**: Your custom additions are automatically saved and persist across sessions
 
 ## 🎯 Generated Output
 
@@ -23,33 +28,45 @@ The app creates:
 
 ## 🛠️ Installation
 
+### Option 1: Try Online (Recommended)
+Simply visit **[https://prompt-generator-ymcbzrgn.streamlit.app/](https://prompt-generator-ymcbzrgn.streamlit.app/)** - no setup required!
+
+### Option 2: Run Locally
 1. Clone or download this repository
 2. Install required dependencies:
    ```bash
    pip install streamlit
    ```
-
-## 🚀 Usage
-
-1. Run the application:
+3. Run the application:
    ```bash
    streamlit run app.py
    ```
 
-2. Open your browser and navigate to the provided local URL (usually `http://localhost:8501`)
+## 🚀 Usage
 
-3. Choose your mode:
+### Quick Start
+1. **[Open the live app](https://prompt-generator-ymcbzrgn.streamlit.app/)**
+2. Choose your mode:
    - **🎨 Prompt Oluştur**: Generate prompts using existing elements
    - **➕ Öğe Ekle**: Add new characters, poses, colors, and styles
 
-4. Select your preferences:
+### For Local Installation
+1. Run the application:
+   ```bash
+   streamlit run app.py
+   ```
+2. Open your browser and navigate to the provided local URL (usually `http://localhost:8501`)
+
+### Using the Generator
+1. Choose your mode from the sidebar
+2. Select your preferences:
    - Character and pose
    - Color palette and art style
    - Lighting and background
    - Mood and expression
    - Visual effects (optional)
 
-5. Click **"🎨 ULTRA PROMPT OLUŞTUR"** to generate your professional prompt
+3. Click **"🎨 ULTRA PROMPT OLUŞTUR"** to generate your professional prompt
 
 ## 📋 Example Output
 
@@ -72,7 +89,7 @@ Use the **"➕ Öğe Ekle"** tab to add:
 
 ### Session Persistence
 
-All added elements are stored in your browser session and will persist until you refresh or close the application.
+All added elements are automatically saved to a JSON file and will persist across browser sessions, page refreshes, and app restarts. Your custom content is preserved!
 
 ## 🎯 Target Platforms
 
@@ -84,6 +101,8 @@ All added elements are stored in your browser session and will persist until you
 ## 📊 Technical Features
 
 - **Session State Management**: Persistent data across interactions
+- **File-Based Storage**: JSON persistence that survives app restarts
+- **Automatic Save**: All additions are automatically saved to disk
 - **Tabbed Interface**: Organized input sections
 - **Real-time Updates**: Immediate addition of new elements
 - **Professional JSON**: Structured output with metadata

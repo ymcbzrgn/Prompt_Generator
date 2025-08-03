@@ -1,81 +1,143 @@
 import streamlit as st
 import json
+import os
+
+# Data persistence functions
+def load_data():
+    """Load data from JSON file if it exists"""
+    data_file = "prompt_generator_data.json"
+    if os.path.exists(data_file):
+        try:
+            with open(data_file, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            st.error(f"Error loading data: {e}")
+    return None
+
+def save_data():
+    """Save current session state to JSON file"""
+    data_file = "prompt_generator_data.json"
+    try:
+        data = {
+            'characters': st.session_state.characters,
+            'poses': st.session_state.poses,
+            'color_palettes': st.session_state.color_palettes,
+            'art_styles': st.session_state.art_styles,
+            'lighting_types': st.session_state.lighting_types,
+            'backgrounds': st.session_state.backgrounds,
+            'moods': st.session_state.moods,
+            'expressions': st.session_state.expressions
+        }
+        with open(data_file, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        return True
+    except Exception as e:
+        st.error(f"Error saving data: {e}")
+        return False
+
+# Load existing data or use defaults
+saved_data = load_data()
 
 # Initialize session state
+# Initialize session state
 if 'characters' not in st.session_state:
-    st.session_state.characters = {
-        "cyberpunk hacker girl": "neon-lit server room",
-        "futuristic samurai": "cyberpunk Neo-Tokyo", 
-        "anime spellcaster": "digital magic realm",
-        "superhero": "cyberpunk metropolis"
-    }
+    if saved_data and 'characters' in saved_data:
+        st.session_state.characters = saved_data['characters']
+    else:
+        st.session_state.characters = {
+            "cyberpunk hacker girl": "neon-lit server room",
+            "futuristic samurai": "cyberpunk Neo-Tokyo", 
+            "anime spellcaster": "digital magic realm",
+            "superhero": "cyberpunk metropolis"
+        }
 
 if 'poses' not in st.session_state:
-    st.session_state.poses = [
-        "dynamic crouched pose ready to strike with glowing weapon",
-        "heroic standing pose with cape flowing in neon wind",
-        "profile view looking upward thoughtfully with glowing eyes", 
-        "arms outstretched with energy coursing through body",
-        "confident standing with arms crossed and electric aura",
-        "mid-air jumping pose with trailing energy effects",
-        "sitting meditation pose with floating energy orbs",
-        "walking forward with determination and glowing footsteps",
-        "dramatic pose with one hand extended casting energy",
-        "battle-ready stance with dual weapons glowing"
-    ]
+    if saved_data and 'poses' in saved_data:
+        st.session_state.poses = saved_data['poses']
+    else:
+        st.session_state.poses = [
+            "dynamic crouched pose ready to strike with glowing weapon",
+            "heroic standing pose with cape flowing in neon wind",
+            "profile view looking upward thoughtfully with glowing eyes", 
+            "arms outstretched with energy coursing through body",
+            "confident standing with arms crossed and electric aura",
+            "mid-air jumping pose with trailing energy effects",
+            "sitting meditation pose with floating energy orbs",
+            "walking forward with determination and glowing footsteps",
+            "dramatic pose with one hand extended casting energy",
+            "battle-ready stance with dual weapons glowing"
+        ]
 
 if 'color_palettes' not in st.session_state:
-    st.session_state.color_palettes = {
-        "Cyberpunk Classic": "electric blue, hot pink, neon purple, cyan",
-        "Neon Sunset": "neon orange, electric pink, bright purple, yellow glow",
-        "Ice Fire": "ice blue, neon red, white, cyan",
-        "Toxic Glow": "neon green, electric purple, bright cyan, lime"
-    }
+    if saved_data and 'color_palettes' in saved_data:
+        st.session_state.color_palettes = saved_data['color_palettes']
+    else:
+        st.session_state.color_palettes = {
+            "Cyberpunk Classic": "electric blue, hot pink, neon purple, cyan",
+            "Neon Sunset": "neon orange, electric pink, bright purple, yellow glow",
+            "Ice Fire": "ice blue, neon red, white, cyan",
+            "Toxic Glow": "neon green, electric purple, bright cyan, lime"
+        }
 
 if 'art_styles' not in st.session_state:
-    st.session_state.art_styles = [
-        "anime style digital art",
-        "highly detailed anime illustration", 
-        "cyberpunk anime art style",
-        "cinematic anime style digital art",
-        "masterpiece anime artwork"
-    ]
+    if saved_data and 'art_styles' in saved_data:
+        st.session_state.art_styles = saved_data['art_styles']
+    else:
+        st.session_state.art_styles = [
+            "anime style digital art",
+            "highly detailed anime illustration", 
+            "cyberpunk anime art style",
+            "cinematic anime style digital art",
+            "masterpiece anime artwork"
+        ]
 
 if 'lighting_types' not in st.session_state:
-    st.session_state.lighting_types = [
-        "dramatic neon lighting",
-        "cinematic rim lighting",
-        "atmospheric neon glow",
-        "multiple colored light sources",
-        "volumetric neon lighting"
-    ]
+    if saved_data and 'lighting_types' in saved_data:
+        st.session_state.lighting_types = saved_data['lighting_types']
+    else:
+        st.session_state.lighting_types = [
+            "dramatic neon lighting",
+            "cinematic rim lighting",
+            "atmospheric neon glow",
+            "multiple colored light sources",
+            "volumetric neon lighting"
+        ]
 
 if 'backgrounds' not in st.session_state:
-    st.session_state.backgrounds = [
-        "pure black background",
-        "dark void with neon grid",
-        "black background with subtle geometric patterns",
-        "deep space black",
-        "minimalist dark cityscape silhouette"
-    ]
+    if saved_data and 'backgrounds' in saved_data:
+        st.session_state.backgrounds = saved_data['backgrounds']
+    else:
+        st.session_state.backgrounds = [
+            "pure black background",
+            "dark void with neon grid",
+            "black background with subtle geometric patterns",
+            "deep space black",
+            "minimalist dark cityscape silhouette"
+        ]
 
 if 'moods' not in st.session_state:
-    st.session_state.moods = [
-        "dark and mysterious",
-        "vibrant and energetic", 
-        "serene and mystical",
-        "intense and dramatic",
-        "futuristic and clean"
-    ]
+    if saved_data and 'moods' in saved_data:
+        st.session_state.moods = saved_data['moods']
+    else:
+        st.session_state.moods = [
+            "dark and mysterious",
+            "vibrant and energetic", 
+            "serene and mystical",
+            "intense and dramatic",
+            "futuristic and clean"
+        ]
 
 if 'expressions' not in st.session_state:
-    st.session_state.expressions = [
-        "confident and determined",
-        "mysterious and enigmatic",
-        "fierce and powerful",
-        "calm and contemplative",
-        "rebellious and edgy"
-    ]
+    if saved_data and 'expressions' in saved_data:
+        st.session_state.expressions = saved_data['expressions']
+    else:
+        st.session_state.expressions = [
+            "confident and determined",
+            "mysterious and enigmatic",
+            "fierce and powerful",
+            "calm and contemplative",
+            "rebellious and edgy"
+        ]
 
 def add_character():
     """Basit öğe ekleme fonksiyonu"""
@@ -93,6 +155,7 @@ def add_character():
             if st.button("Ekle", key="char_add", use_container_width=True):
                 if char_name and char_origin:
                     st.session_state.characters[char_name] = char_origin
+                    save_data()  # Save to file
                     st.success("✅ Eklendi!")
                     st.rerun()
     
@@ -104,6 +167,7 @@ def add_character():
             if st.button("Ekle", key="pose_add", use_container_width=True):
                 if new_pose:
                     st.session_state.poses.append(new_pose)
+                    save_data()  # Save to file
                     st.success("✅ Eklendi!")
                     st.rerun()
     
@@ -117,6 +181,7 @@ def add_character():
             if st.button("Ekle", key="palette_add", use_container_width=True):
                 if palette_name and palette_colors:
                     st.session_state.color_palettes[palette_name] = palette_colors
+                    save_data()  # Save to file
                     st.success("✅ Eklendi!")
                     st.rerun()
     
@@ -128,6 +193,7 @@ def add_character():
             if st.button("Ekle", key="art_add", use_container_width=True):
                 if new_art_style:
                     st.session_state.art_styles.append(new_art_style)
+                    save_data()  # Save to file
                     st.success("✅ Eklendi!")
                     st.rerun()
     
@@ -139,6 +205,7 @@ def add_character():
             if st.button("Ekle", key="light_add", use_container_width=True):
                 if new_lighting:
                     st.session_state.lighting_types.append(new_lighting)
+                    save_data()  # Save to file
                     st.success("✅ Eklendi!")
                     st.rerun()
     
@@ -150,6 +217,7 @@ def add_character():
             if st.button("Ekle", key="bg_add", use_container_width=True):
                 if new_background:
                     st.session_state.backgrounds.append(new_background)
+                    save_data()  # Save to file
                     st.success("✅ Eklendi!")
                     st.rerun()
     
@@ -166,6 +234,7 @@ def add_character():
                 if new_expression:
                     st.session_state.expressions.append(new_expression)
                 if new_mood or new_expression:
+                    save_data()  # Save to file
                     st.success("✅ Eklendi!")
                     st.rerun()
 
@@ -342,6 +411,25 @@ def main():
         st.write(f"🖼️ Backgrounds: {len(st.session_state.backgrounds)}")
         st.write(f"😊 Moods: {len(st.session_state.moods)}")
         st.write(f"😎 Expressions: {len(st.session_state.expressions)}")
+        
+        # Data management
+        st.markdown("---")
+        st.subheader("💾 Veri Yönetimi")
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("💾 Kaydet", use_container_width=True):
+                if save_data():
+                    st.success("✅ Veriler kaydedildi!")
+                else:
+                    st.error("❌ Kayıt başarısız!")
+        
+        with col2:
+            if st.button("🔄 Yenile", use_container_width=True):
+                st.rerun()
+        
+        # Persistent storage info
+        st.info("ℹ️ Eklediğiniz öğeler otomatik olarak kaydedilir ve sayfa yenilendiğinde korunur.")
         
         # Detayları göster
         if st.checkbox("Detayları Göster"):
