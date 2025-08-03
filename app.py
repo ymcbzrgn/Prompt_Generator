@@ -3,9 +3,52 @@ import json
 import os
 import requests
 import time
+import streamlit.components.v1 as components
 from typing import Optional, Dict, Any
 
 # Data persistence functions
+def copy_to_clipboard(text, button_key):
+    """JavaScript ile metni panoya kopyala"""
+    # JavaScript escape edilmiş metin
+    escaped_text = text.replace('\\', '\\\\').replace('`', '\\`').replace('$', '\\$').replace('"', '\\"').replace("'", "\\'")
+    copy_script = f"""
+    <script>
+    function copyText_{button_key}() {{
+        const text = `{escaped_text}`;
+        if (navigator.clipboard && navigator.clipboard.writeText) {{
+            navigator.clipboard.writeText(text).then(function() {{
+                console.log('Text copied to clipboard successfully');
+            }}).catch(function(err) {{
+                console.error('Clipboard API failed: ', err);
+                fallbackCopy(text);
+            }});
+        }} else {{
+            fallbackCopy(text);
+        }}
+        
+        function fallbackCopy(text) {{
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {{
+                document.execCommand('copy');
+                console.log('Fallback copy successful');
+            }} catch (err) {{
+                console.error('Fallback copy failed: ', err);
+            }}
+            document.body.removeChild(textArea);
+        }}
+    }}
+    copyText_{button_key}();
+    </script>
+    """
+    components.html(copy_script, height=0)
+
 def load_data():
     """Load data from JSON file if it exists"""
     data_file = "prompt_generator_data.json"
@@ -652,35 +695,26 @@ def generate_prompt():
             else:
                 st.info("📝 **Standart Prompt:**")
             
-            # Ana prompt'u göster
-            st.code(detailed_prompt, language=None)
+            # Kopyalama için text area
+            st.text_area("📋 Kopyalamak için buradan seçin:", value=detailed_prompt, height=120, key="copy_area_main", 
+                        help="Bu alanı seçip Ctrl+A ile tamamını seçin, sonra Ctrl+C ile kopyalayın")
             
-            # Kopyalama butonları
-            col_copy1, col_copy2 = st.columns(2)
-            with col_copy1:
-                if st.button("📋 Prompt'u Kopyalamak için Tıkla", key="copy_main", use_container_width=True, type="primary"):
-                    st.balloons()
-                    st.success("✅ Prompt kopyalanması için yukarıdaki kod bloğunu seçin!")
-            
-            with col_copy2:
-                prompt_length = len(detailed_prompt.split())
-                st.info(f"📏 **Toplam {prompt_length} kelime**")
+            # Prompt bilgileri
+            prompt_length = len(detailed_prompt.split())
+            st.info(f"📏 **Toplam {prompt_length} kelime**")
             
             if ai_enhanced and base_prompt != detailed_prompt:
-                with st.expander("📝 Orijinal vs AI Enhanced Karşılaştırma"):
+                with st.expander("📝 Orijinal vs AI Enhanced Karşılaştırma - Düzenleyebilirsiniz"):
                     col_comp1, col_comp2 = st.columns(2)
                     with col_comp1:
-                        st.write("**Orijinal Prompt:**")
-                        st.text_area("Orijinal", value=base_prompt, height=120, disabled=True, key="orig", label_visibility="hidden")
-                        if st.button("📋 Orijinal'i Kopyala", key="copy_orig", use_container_width=True):
-                            st.code(base_prompt, language=None)
-                            st.success("✅ Orijinal prompt yukarıda gösterildi!")
+                        st.write("**Orijinal Prompt:** *(düzenlenebilir)*")
+                        editable_orig = st.text_area("Orijinal prompt'u düzenleyin:", value=base_prompt, height=120, key="orig_editable", 
+                                                   help="Bu metni istediğiniz gibi düzenleyebilirsiniz")
+                                    
                     with col_comp2:
-                        st.write("**AI Enhanced Prompt:**")
-                        st.text_area("Enhanced", value=detailed_prompt, height=120, disabled=True, key="enh", label_visibility="hidden")
-                        if st.button("📋 Enhanced'ı Kopyala", key="copy_enh", use_container_width=True):
-                            st.code(detailed_prompt, language=None)
-                            st.success("✅ Enhanced prompt yukarıda gösterildi!")
+                        st.write("**AI Enhanced Prompt:** *(düzenlenebilir)*")
+                        editable_enh = st.text_area("Enhanced prompt'u düzenleyin:", value=detailed_prompt, height=120, key="enh_editable",
+                                                  help="AI tarafından geliştirilen prompt'u istediğiniz gibi düzenleyebilirsiniz")
             
         with tabs[1]:  # JSON
             st.subheader("📋 Profesyonel JSON Çıktısı:")
@@ -688,12 +722,18 @@ def generate_prompt():
             
         with tabs[2]:  # Alternatifler
             st.subheader("🔄 Diğer AI Platformları için Alternatifler:")
+            
+            # Kısa Versiyon
             st.write("**Kısa Versiyon:**")
-            st.code(prompt_data["alternative_prompts"]["short_version"])
+            st.text_area("Kopyalamak için:", value=prompt_data["alternative_prompts"]["short_version"], height=75, key="copy_short_area")
+            
+            # Midjourney
             st.write("**Midjourney Tarzı:**")
-            st.code(prompt_data["alternative_prompts"]["midjourney_style"])
+            st.text_area("Kopyalamak için:", value=prompt_data["alternative_prompts"]["midjourney_style"], height=75, key="copy_mj_area")
+            
+            # Stable Diffusion
             st.write("**Stable Diffusion:**")
-            st.code(prompt_data["alternative_prompts"]["stable_diffusion"])
+            st.text_area("Kopyalamak için:", value=prompt_data["alternative_prompts"]["stable_diffusion"], height=75, key="copy_sd_area")
             
         with tabs[3]:  # Analiz
             st.subheader("📊 Prompt Analizi:")
